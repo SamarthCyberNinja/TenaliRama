@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tenali Rama's Riddles</title>
+    <link href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" rel="stylesheet">
+    <style>
+        /* Additional CSS styles */
+        img {
+            max-width: 600px; /* Ensure image is responsive */
+            height: auto; /* Maintain aspect ratio */
+        }
+
+        .options {
+            font-size: 1.2em; /* Adjust font size for better visibility */
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="container-fluid">
+        <ul>
+            <li><strong>Tenali Rama's Riddles</strong></li>
+        </ul>
+        <ul>
+            <li><a href="#riddle">Riddles</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <main class="container">
+        <div class="grid">
+            <section>
+                <hgroup>
+                    <h2>Tenali Rama's Riddles</h2>
+                    <h3>Challenge your mind with these classic riddles</h3>
+                </hgroup>
+                <p>Get ready to solve some of the most intriguing riddles posed by Tenali Rama, the legendary poet and scholar.</p>
+                <figure>
+                    <img src="https://static.iwmbuzz.com/wp-content/uploads/2018/04/rama-1.jpg" alt="Tenali Rama" />
+                    <figcaption>
+                        <a href="https://en.wikipedia.org/wiki/Tenali_Rama" target="_blank">Learn more about Tenali Rama</a>
+                    </figcaption>
+                </figure>
+                <h3 id="riddle"></h3>
+                <div id="answer" class="options space-y-2"></div>
+                <button onclick="showAnswer()" class="mt-6">Show Answer</button>
+                <button onclick="nextRiddle()" class="mt-6">Next Riddle</button>
+                <div id="feedback" class="mt-4 font-bold"></div>
+            </section>
+        </div>
+    </main>
+
+    <section aria-label="Subscribe example">
+        <div class="container">
+            <article>
+                <hgroup>
+                    <h2>Stay Updated</h2>
+                    <h3>Subscribe to receive more riddles and updates</h3>
+                </hgroup>
+                <form class="grid" action="https://formspree.io/f/xeojjpya" method="post">
+                    <input type="text" id="firstname" name="firstname" placeholder="First Name" aria-label="First Name" required />
+                    <input type="email" id="email" name="email" placeholder="Email" aria-label="Email" required />
+                    <button type="submit">Subscribe</button>
+                </form>
+            </article>
+        </div>
+    </section>
+
+    
+
+    <script>
+        let currentRiddle;
+
+        async function fetchRiddle() {
+            const response = await fetch('https://riddles-api.vercel.app/random');
+            const data = await response.json();
+            return data;
+        }
+
+        async function displayRiddle() {
+            currentRiddle = await fetchRiddle();
+            const riddleElement = document.getElementById('riddle');
+            const answerElement = document.getElementById('answer');
+            const feedbackElement = document.getElementById('feedback');
+            
+            feedbackElement.textContent = '';
+            answerElement.textContent = '';
+
+            riddleElement.textContent = currentRiddle.riddle;
+        }
+
+        function showAnswer() {
+            const answerElement = document.getElementById('answer');
+            answerElement.textContent = currentRiddle.answer;
+        }
+
+        function nextRiddle() {
+            displayRiddle();
+        }
+
+        window.onload = displayRiddle;
+    </script>
+</body>
+
+</html>
